@@ -7,7 +7,6 @@ use Cake\Core\BasePlugin;
 use Cake\Core\ContainerInterface;
 use Passchn\CakeLogging\Module\LoggerFacade\LoggerFacadeModule;
 use Passchn\CakeLogging\Module\Redundancy\ReduncandyModule;
-use Passchn\CakeLogging\Module\Sentry\SentryModule;
 use Passchn\SimpleDI\Module\DI\DIManager;
 use Passchn\SimpleDI\Module\Plugin\PluginInterface;
 
@@ -28,7 +27,6 @@ final class CakeLoggingPlugin extends BasePlugin implements PluginInterface
         return [
             LoggerFacadeModule::class,
             ReduncandyModule::class,
-            SentryModule::class,
         ];
     }
 }
