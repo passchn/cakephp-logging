@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Passchn\CakeLogging\Module\Redundancy\MultiLogger;
 
+use Cake\Log\Log;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -34,19 +35,14 @@ final class MultiLogger extends AbstractLogger
             return;
         }
 
-        foreach ($this->loggers as $logger) {
-            if (in_array($logger::class, $erroredLoggers, true)) {
-                continue;
-            }
-            $logger->error(
-                'Failed to log message to loggers.',
-                [
-                    'erroredLoggers' => $erroredLoggers,
-                    'originalLevel' => $level,
-                    'originalMessage' => $message,
-                    'originalContext' => $context,
-                ],
-            );
-        }
+        Log::error(
+            'Failed to log message to loggers.',
+            [
+                'erroredLoggers' => $erroredLoggers,
+                'originalLevel' => $level,
+                'originalMessage' => $message,
+                'originalContext' => $context,
+            ],
+        );
     }
 }
