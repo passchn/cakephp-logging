@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Passchn\CakeLogging\Module\Sentry\Client;
 
-use Passchn\CakeLogging\Module\Http\ClientInterface;
-use Passchn\CakeLogging\ValueObject\LogEntry;
+use Passchn\CakeLogging\Module\Sentry\ValueObject\SentryLogEntry;
 
-final class SentryClient implements ClientInterface
+final class SentryClient
 {
-    public function log(LogEntry $logEntry): void
+    public function log(SentryLogEntry $logEntry): void
     {
         // todo send log to sentry
         throw new SentryClientException('Not implemented');

@@ -27,6 +27,9 @@ final class MultiLogger extends AbstractLogger
             try {
                 $logger->log($level, $message, $context);
             } catch (Throwable) {
+                if ($context['isMultiLoggerError'] ?? false) {
+                    continue;
+                }
                 $erroredLoggers[] = $logger::class;
             }
         }
@@ -42,6 +45,7 @@ final class MultiLogger extends AbstractLogger
                 'originalLevel' => $level,
                 'originalMessage' => $message,
                 'originalContext' => $context,
+                'isMultiLoggerError' => true,
             ],
         );
     }

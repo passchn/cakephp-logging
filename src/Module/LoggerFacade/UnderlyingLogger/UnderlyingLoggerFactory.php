@@ -6,14 +6,15 @@ namespace Passchn\CakeLogging\Module\LoggerFacade\UnderlyingLogger;
 
 use Cake\Core\ContainerInterface;
 use Cake\Log\Engine\BaseLog;
+use Passchn\CakeLogging\Module\LoggerFacade\LoggerFacade;
 use Passchn\CakeLogging\Module\Redundancy\MultiLogger\MultiLogger;
 use Passchn\CakeLogging\Module\Redundancy\MultiLogger\MultiLoggerBuilder;
 use Psr\Log\LoggerInterface;
 
-final class UnderlyingLoggerFactory
+final readonly class UnderlyingLoggerFactory
 {
     public function __construct(
-        private readonly ContainerInterface $container,
+        private ContainerInterface $container,
     ) {
     }
 
@@ -22,6 +23,10 @@ final class UnderlyingLoggerFactory
      */
     public function createLogger(string $loggerClassName, array $config): LoggerInterface
     {
+        if (is_a($loggerClassName, LoggerFacade::class, true)) {
+            throw new \LogicException('LoggerFacade must not be used as an underlying logger');
+        }
+
         if ($this->container->has($loggerClassName)) {
             return $this->container->get($loggerClassName);
         }

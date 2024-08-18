@@ -10,6 +10,11 @@ use Passchn\CakeLogging\Module\LoggerFacade\UnderlyingLogger\UnderlyingLoggerFac
 use Passchn\SimpleDI\Module\ServiceLocator\ServiceLocator;
 use Psr\Log\LoggerInterface;
 
+/**
+ * For use in the App Config, e.g. to replace the FileLog class.
+ *
+ * An underlying logger must be specified in the config.
+ */
 final class LoggerFacade extends BaseLog
 {
     public const CONFIG_KEY_UNDERLYING_LOGGER = 'underlyingLogger';
