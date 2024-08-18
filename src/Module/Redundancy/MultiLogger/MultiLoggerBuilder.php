@@ -18,10 +18,17 @@ final class MultiLoggerBuilder
         array $baseLogConfig,
     ): MultiLogger
     {
+        $multiLoggerConfig = $this->multiLoggerConfig;
+
+        $specialMultiLoggerConfig = $baseLogConfig[MultiLoggerConfig::class] ?? null;
+        if (is_array($specialMultiLoggerConfig)) {
+            $multiLoggerConfig = $multiLoggerConfig->withMergedConfig($baseLogConfig[MultiLoggerConfig::class]);
+        }
+
         return new MultiLogger(
             array_map(
                 fn(string $loggerClassName) => $this->underlyingLoggerFactory->createLogger($loggerClassName, $baseLogConfig),
-                $this->multiLoggerConfig->loggerClassNames,
+                $multiLoggerConfig->loggerClassNames,
             ),
         );
     }
