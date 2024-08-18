@@ -6,7 +6,6 @@ namespace Passchn\CakeLogging;
 use Cake\Core\BasePlugin;
 use Cake\Core\ContainerInterface;
 use Passchn\CakeLogging\Module\LogContext\LogContextModule;
-use Passchn\CakeLogging\Module\Redundancy\MultiLogger\MultiLogger;
 use Passchn\CakeLogging\Module\Redundancy\ReduncandyModule;
 use Passchn\CakeLogging\Module\Sentry\SentryModule;
 use Passchn\SimpleDI\Module\DI\DIManager;
@@ -28,7 +27,6 @@ final class CakeLoggingPlugin extends BasePlugin implements PluginInterface
     {
         return [
             LogContextModule::class,
-            MultiLogger::class,
             ReduncandyModule::class,
             SentryModule::class,
         ];
