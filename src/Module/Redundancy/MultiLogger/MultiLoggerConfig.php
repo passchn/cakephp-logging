@@ -24,7 +24,7 @@ final class MultiLoggerConfig
     {
         return new MultiLoggerConfig(
             self::getValidatedLoggersConfig(
-                Configure::readOrFail($configKey . self::CONFIG_KEY_LOGGERS),
+                Configure::readOrFail($configKey . '.' . self::CONFIG_KEY_LOGGERS),
             ),
         );
     }
