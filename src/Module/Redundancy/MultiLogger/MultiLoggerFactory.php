@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Passchn\CakeLogging\Module\Redundancy\MultiLogger;
 
 use Cake\Core\ContainerInterface;
+use Passchn\CakeLogging\Module\LoggerFacade\UnderlyingLogger\UnderlyingLoggerFactory;
 use Passchn\SimpleDI\Module\DI\Factory\InvokableFactoryInterface;
 
 final class MultiLoggerFactory implements InvokableFactoryInterface
@@ -16,8 +17,16 @@ final class MultiLoggerFactory implements InvokableFactoryInterface
          */
         $config = $container->get(MultiLoggerConfig::class);
 
+        /**
+         * @var UnderlyingLoggerFactory $underlyingLoggerFactory
+         */
+        $underlyingLoggerFactory = $container->get(UnderlyingLoggerFactory::class);
+        
         return new MultiLogger(
-            array_map(fn (string $loggerClassName) => $container->get($loggerClassName), $config->loggerClassNames),
+            array_map(
+                fn(string $loggerClassName) => $underlyingLoggerFactory->createLogger($loggerClassName),
+                $config->loggerClassNames,
+            ),
         );
     }
 }

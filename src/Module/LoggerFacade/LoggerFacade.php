@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Passchn\CakeLogging;
+namespace Passchn\CakeLogging\Module\LoggerFacade;
 
 use Cake\Core\Configure;
 use Cake\Log\Engine\BaseLog;
+use Passchn\CakeLogging\Module\LoggerFacade\UnderlyingLogger\UnderlyingLoggerFactory;
 use Passchn\SimpleDI\Module\ServiceLocator\ServiceLocator;
 use Psr\Log\LoggerInterface;
 
@@ -25,7 +26,7 @@ final class LoggerFacade extends BaseLog
             throw new \InvalidArgumentException('underlyingLogger must be a class-string that implements LoggerInterface');
         }
 
-        $this->logger = ServiceLocator::get($underlyingLogger);
+        $this->logger = ServiceLocator::get(UnderlyingLoggerFactory::class)->createLogger($underlyingLogger);
     }
 
     public function log($level, \Stringable|string $message, array $context = []): void

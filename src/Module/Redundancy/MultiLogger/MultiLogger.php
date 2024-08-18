@@ -11,7 +11,7 @@ use Throwable;
 final class MultiLogger extends AbstractLogger
 {
     /**
-     * @param LoggerInterface $loggers
+     * @param non-empty-list<LoggerInterface> $loggers
      */
     public function __construct(
         private readonly array $loggers,
