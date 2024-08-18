@@ -6,6 +6,8 @@ namespace Passchn\CakeLogging\Module\LoggerFacade\UnderlyingLogger;
 
 use Cake\Core\ContainerInterface;
 use Cake\Log\Engine\BaseLog;
+use Passchn\CakeLogging\Module\Redundancy\MultiLogger\MultiLogger;
+use Passchn\CakeLogging\Module\Redundancy\MultiLogger\MultiLoggerBuilder;
 use Psr\Log\LoggerInterface;
 
 final class UnderlyingLoggerFactory
@@ -18,14 +20,23 @@ final class UnderlyingLoggerFactory
     /**
      * @param class-string<LoggerInterface> $loggerClassName
      */
-    public function createLogger(string $loggerClassName): LoggerInterface
+    public function createLogger(string $loggerClassName, array $config): LoggerInterface
     {
         if ($this->container->has($loggerClassName)) {
             return $this->container->get($loggerClassName);
         }
 
         if (is_a($loggerClassName, BaseLog::class, true)) {
-            return $this->createBaseLog($loggerClassName);
+            return $this->createBaseLog($loggerClassName, $config);
+        }
+
+        if (is_a($loggerClassName, MultiLogger::class, true)) {
+            /**
+             * @var MultiLoggerBuilder $multiLoggerBuilder
+             */
+            $multiLoggerBuilder = $this->container->get(MultiLoggerBuilder::class);
+
+            return $multiLoggerBuilder->build($config);
         }
 
         throw new \RuntimeException('Logger not found');
@@ -34,8 +45,8 @@ final class UnderlyingLoggerFactory
     /**
      * @param class-string<BaseLog> $loggerClassName
      */
-    private function createBaseLog(string $loggerClassName): BaseLog
+    private function createBaseLog(string $loggerClassName, array $config): BaseLog
     {
-        return new $loggerClassName();
+        return new $loggerClassName($config);
     }
 }

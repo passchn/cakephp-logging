@@ -26,7 +26,9 @@ final class LoggerFacade extends BaseLog
             throw new \InvalidArgumentException('underlyingLogger must be a class-string that implements LoggerInterface');
         }
 
-        $this->logger = ServiceLocator::get(UnderlyingLoggerFactory::class)->createLogger($underlyingLogger);
+        $this->logger = ServiceLocator
+            ::get(UnderlyingLoggerFactory::class)
+            ->createLogger($underlyingLogger, $config);
     }
 
     public function log($level, \Stringable|string $message, array $context = []): void
