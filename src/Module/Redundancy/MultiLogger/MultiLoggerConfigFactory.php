@@ -11,9 +11,11 @@ use Psr\Log\LoggerInterface;
 
 final class MultiLoggerConfigFactory implements InvokableFactoryInterface
 {
+    public const CONFIG_KEY_LOGGERS = 'loggers';
+
     public function __invoke(ContainerInterface $container)
     {
-        $loggers = Configure::readOrFail(self::class . 'loggers');
+        $loggers = Configure::readOrFail(MultiLoggerConfig::class . '.' . self::CONFIG_KEY_LOGGERS);
 
         if (!array_is_list($loggers)) {
             throw new \InvalidArgumentException('loggers must be a list');
