@@ -139,7 +139,7 @@ public function services(ContainerInterface $container): void
 }
 ```
 
-Then, you can just use the implementation by adding the class name in your app.php configuration for the respsective
+Then, you can just use the implementation by adding the class name in your app.php configuration for the respective
 logging scope:
 
 ```php
@@ -149,7 +149,8 @@ MultiLoggerConfig::CONFIG_KEY_LOGGERS => [
 ],
 ```
 
-Learn more about Dependency Injection in the [CakePHP Book](https://book.cakephp.org/5/en/development/dependency-injection.html).
+Learn more about Dependency Injection in
+the [CakePHP Book](https://book.cakephp.org/5/en/development/dependency-injection.html).
 
 ## Collaboration
 
