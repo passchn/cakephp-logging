@@ -24,7 +24,7 @@ in your Applications container.
 
 It comes with a MultiLogger where you can define multiple implementations as fallbacks.
 
-### Configuration
+## Configuration
 
 In your `config/app.php` you can configure the logger like this:
 
@@ -97,3 +97,60 @@ If you use the default FileLogger, leave the config keys as they are as they wil
 
 Every logger used by the multi logger must be an implementation of the LoggerInterface which is available in your
 container.
+
+### Configuring custom loggers
+
+If you want to configure a custom logger, you can do so by implementing the `LoggerInterface` and adding it to your
+container.
+
+```php
+
+use Psr\Log\LoggerInterface;
+
+class MyLoggerImplementation extends \Psr\Log\AbstractLogger implements LoggerInterface
+{
+    public function __construct(
+        private readonly SomeDependency $dependency,
+    ) {
+        // ...
+    }
+
+    public function log($level, $message, array $context = [])
+    {
+        // your implementation
+    }
+}
+```
+
+Then, you can add it to your container.
+
+In your Application.php:
+
+```php
+
+public function services(ContainerInterface $container): void
+{
+    $container->add(
+        MyLoggerImplementation::class, 
+        fn () => new MyLoggerImplementation(
+            $container->get(SomeDependency::class),
+        ),
+    );
+}
+```
+
+Then, you can just use the implementation by adding the class name in your app.php configuration for the respsective
+logging scope:
+
+```php
+MultiLoggerConfig::CONFIG_KEY_LOGGERS => [
+    MyLoggerImplementation::class,
+    ...
+],
+```
+
+Learn more about Dependency Injection in the [CakePHP Book](https://book.cakephp.org/5/en/development/dependency-injection.html).
+
+## Collaboration
+
+If you have any ideas or encounter a bug, feel free to open an issue or a pull request.
