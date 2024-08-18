@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Passchn\CakeLogging\Module\Redundancy\MultiLogger;
 
-use Passchn\CakeLogging\Module\LoggerFacade\UnderlyingLogger\UnderlyingLoggerFactory;
+use Passchn\CakeLogging\Module\LoggerFacade\UnderlyingLogger\UnderlyingLoggerBuilder;
 
 final class MultiLoggerBuilder
 {
     public function __construct(
-        private readonly UnderlyingLoggerFactory $underlyingLoggerFactory,
+        private readonly UnderlyingLoggerBuilder $underlyingLoggerFactory,
         private readonly MultiLoggerConfig       $multiLoggerConfig,
     ){
     }
@@ -27,7 +27,7 @@ final class MultiLoggerBuilder
 
         return new MultiLogger(
             array_map(
-                fn(string $loggerClassName) => $this->underlyingLoggerFactory->createLogger($loggerClassName, $baseLogConfig),
+                fn(string $loggerClassName) => $this->underlyingLoggerFactory->buildLogger($loggerClassName, $baseLogConfig),
                 $multiLoggerConfig->loggerClassNames,
             ),
         );

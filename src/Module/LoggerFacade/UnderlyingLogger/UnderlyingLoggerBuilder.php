@@ -11,7 +11,7 @@ use Passchn\CakeLogging\Module\Redundancy\MultiLogger\MultiLogger;
 use Passchn\CakeLogging\Module\Redundancy\MultiLogger\MultiLoggerBuilder;
 use Psr\Log\LoggerInterface;
 
-final readonly class UnderlyingLoggerFactory
+final readonly class UnderlyingLoggerBuilder
 {
     public function __construct(
         private ContainerInterface $container,
@@ -21,7 +21,7 @@ final readonly class UnderlyingLoggerFactory
     /**
      * @param class-string<LoggerInterface> $loggerClassName
      */
-    public function createLogger(string $loggerClassName, array $config): LoggerInterface
+    public function buildLogger(string $loggerClassName, array $config): LoggerInterface
     {
         if (is_a($loggerClassName, LoggerFacade::class, true)) {
             throw new \LogicException('LoggerFacade must not be used as an underlying logger');

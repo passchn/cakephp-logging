@@ -7,7 +7,7 @@
         "php": "^8.2",
         "cakephp/cakephp": "^4.4 || ^5.0",
         "psr/log": "^3.0",
-        "passchn/cakephp-simple-di": "^3.3"
+        "passchn/cakephp-simple-di": "^3.4"
     },
     "autoload": {
         "psr-4": {
