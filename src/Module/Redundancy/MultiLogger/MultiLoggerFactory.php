@@ -17,7 +17,7 @@ final class MultiLoggerFactory implements InvokableFactoryInterface
         $config = $container->get(MultiLoggerConfig::class);
 
         return new MultiLogger(
-            $config->loggerClassNames,
+            array_map(fn (string $loggerClassName) => $container->get($loggerClassName), $config->loggerClassNames),
         );
     }
 }

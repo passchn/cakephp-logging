@@ -8,6 +8,8 @@ use Psr\Log\LoggerInterface;
 
 final class MultiLoggerConfig
 {
+    public const CONFIG_KEY_LOGGERS = 'loggers';
+
     /**
      * @param non-empty-list<class-string<LoggerInterface>> $loggerClassNames
      */
